@@ -1,7 +1,8 @@
 import { JsonController, Param, Get, Put, NotFoundError, Body, Post, HttpCode, BadRequestError} from 'routing-controllers'
 import Game, { defaultBoard } from './entity'
-import { moves } from './moves'
+//import { moves } from './moves'
 import { color } from './colors'
+
 
 // next step is to continue implementing below
 // @Validate(IsBoard, {
@@ -35,27 +36,29 @@ async updateGame(
   @Param('id') id: number,
   @Body() update: Partial<Game>
 ) {
-    const game = await Game.findOne(id)
+    let game = await Game.findOne(id)
   if (!game) throw new NotFoundError('Cannot find your game')
 
-  if (update.board && moves(game.board, update.board) > 1){
+ else if (update.board && moves(update.board, game.board ) > 1){
     throw new BadRequestError(`Only one move allowed!`)
   
 }
 
-return Game.merge(game, update).save()
+Game.merge(game, update).save()
 }
 
 
 
 @Post('/games')
 @HttpCode(201)
-  async createGame( 
-  @Body() body: Game, 
+    createGame( 
+  @Body() body: Game,
+
 ) {
-    const game : Partial<Game> = {'name': 'name', 'color': color, 'board': defaultBoard}
+    
+    const game : Partial<Game> = {'name': 'name', 'color': color}
     game.name= body.name
-    game.board = defaultBoard 
+    game.board = defaultBoard
     return Game.create(game).save()
 }
 

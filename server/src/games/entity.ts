@@ -9,7 +9,7 @@ export const defaultBoard = [
 ]
 
 export type Square = null | 'x' | 'o'
-
+export type Board = Square[][]
 
 
 
