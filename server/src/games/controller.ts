@@ -1,5 +1,12 @@
-import { JsonController, Param, Get, Put, NotFoundError, Body, Post, HttpCode} from 'routing-controllers'
-import Game from './entity'
+import { JsonController, Param, Get, Put, NotFoundError, Body, Post, HttpCode, BadRequestError} from 'routing-controllers'
+import Game , {randomColors, defaultBoard} from './entity'
+import { moves } from './moves'
+
+
+// @Validate(IsBoard, {
+//     message: 'Not a valid board'
+//   })
+//   board: Board
 
 @JsonController()
 export default class GameController {
@@ -23,25 +30,50 @@ export default class GameController {
 
    
 @Put('/games/:id')
-async updateProduct(
+async updateGame(
   @Param('id') id: number,
   @Body() update: Partial<Game>
 ) {
-  const game = await Game.findOne(id)
+    const game = await Game.findOne(id)
   if (!game) throw new NotFoundError('Cannot find your game')
 
-  return Game.merge(game, update).save()
+  if(update.board !== undefined) {
+    const numberOfMoves = moves(game.board, update.board)
+    if(numberOfMoves !== 1) throw new BadRequestError('Each player is allowed only one move per turn!')
+
+
+  const colors = update.color
+  if (colors !== undefined && randomColors.indexOf(colors) <0)
+  throw new BadRequestError('You must pick from the following : ' + randomColors.join(', '))
+
+//   @Body() name : string
+//   const game : Partial<Game> = {name: name, color: randomColors(colors)}
+
+  
 }
+
+
+return Game.merge(game, update).save()
+}
+
 
 
 @Post('/games')
 @HttpCode(201)
- createGame(
-  @Body() game: Game
+  createGame( 
+  @Body() body: Game 
 ) {
-
-  return game.save()
+    const game = new Game()
+    game.name= body.name
+    game.color=randomColors[Math.floor(Math.random() * randomColors.length)]
+    game.board = defaultBoard 
+    return Game.create(game).save()
 }
 
-
+//@Body() name : string
+//const game : Partial<Game> = {name: name, color: getRandomColor(colorBank)},
 }
+
+        //if (!game || !game.name) throw new BadRequestError('A game with this name does not exist') //throw back error
+     //const game = await Game.createOne({ where: { name } }) //if name exists- find game by name-
+       

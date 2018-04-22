@@ -1,24 +1,36 @@
 import { Entity, PrimaryGeneratedColumn, Column} from 'typeorm'
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
-import { IsString } from 'class-validator';
+
+export const defaultBoard = [
+    ['o','o','o'],
+    ['o','o','o'],
+    ['o','o','o']
+]
+
+export const randomColors = ['red','blue','magenta','yellow','green']
 
 
 @Entity()
 export default class Game extends BaseEntity {
 
+    static createOne: any;
     @PrimaryGeneratedColumn() // generates ID for each game
   id?: number
 
-  @IsString() //name of game must be a string, text
+  //name of game must be text
   @Column('text', {nullable:false})
   name: string
 
-  @IsString() // color must be string, how to limit color choice?
-  @Column('text', {nullable:false})
+  // how to limit color choice?
+  @Column('text', {nullable:true})
   color: string
+  
 
-
-  @Column('json', { nullable: false }) // board must be of JSON type
-  board: JSON
+  @Column('json', { nullable: true }) // board must be of JSON type
+  board: string[][]
+  //board: JSON
 
 }
+
+
+    

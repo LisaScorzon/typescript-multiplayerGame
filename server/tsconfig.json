@@ -2,13 +2,13 @@
     "compilerOptions": {
       "module": "commonjs",
       "moduleResolution": "node",
-      "noImplicitThis": true,
+      "noImplicitThis": false,
       "noUnusedLocals": true,
-      "noUnusedParameters": true,
+      "noUnusedParameters": true, // turned this off
       "removeComments": true,
       "skipLibCheck": false,
       "sourceMap": true,
-      "strictNullChecks": true,
+      "strictNullChecks": false, // also this
       "experimentalDecorators": true,
       "target": "ES2017",
       "types" : [ "node" ],
