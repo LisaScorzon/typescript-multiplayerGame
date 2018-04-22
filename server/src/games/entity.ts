@@ -8,7 +8,9 @@ export const defaultBoard = [
     ['o','o','o']
 ]
 
-export const randomColors = ['red','blue','magenta','yellow','green']
+export type Square = null | 'x' | 'o'
+
+
 
 
 @Entity()

@@ -1,9 +1,9 @@
 import { JsonController, Param, Get, Put, NotFoundError, Body, Post, HttpCode, BadRequestError} from 'routing-controllers'
-import Game , {randomColors, defaultBoard} from './entity'
+import Game, { defaultBoard } from './entity'
 import { moves } from './moves'
-import { validate } from 'class-validator';
+import { color } from './colors'
 
-
+// next step is to continue implementing below
 // @Validate(IsBoard, {
 //     message: 'Not a valid board'
 //   })
@@ -38,21 +38,16 @@ async updateGame(
     const game = await Game.findOne(id)
   if (!game) throw new NotFoundError('Cannot find your game')
 
-  if(update.board !== undefined) {
-    const numberOfMoves = moves(game.board, update.board)
-    if(numberOfMoves !== 1) throw new BadRequestError(`HTTP 400 Bad Request`)
+  if (update.board && moves(game.board, update.board) > 1){
+    throw new BadRequestError(`Only one move allowed!`)
 
 
-  const colors = update.color
-  if (!colors) throw new BadRequestError('You must pick from the following : ' + randomColors.join(', '))
 
-//   @Body() name : string
-//   const game : Partial<Game> = {name: name, color: randomColors(colors)}
-
+  //const colors = update.color
+  //if (colors !== ?? ) throw new BadRequestError('You must pick from the following : ' + randomColors.join(', '))
   
 }
 
-validate(this.updateGame)
 return Game.merge(game, update).save()
 }
 
@@ -60,14 +55,11 @@ return Game.merge(game, update).save()
 
 @Post('/games')
 @HttpCode(201)
-  createGame( 
+  async createGame( 
   @Body() body: Game, 
-  @Body() name : string
 ) {
-    const game : Partial<Game> = {name: name, color: randomColors[Math.floor(Math.random() * randomColors.length)]}
-    // const game = new Game()
+    const game : Partial<Game> = {'name': 'name', 'color': color, 'board': defaultBoard}
     game.name= body.name
-    //game.color=randomColors[Math.floor(Math.random() * randomColors.length)]
     game.board = defaultBoard 
     return Game.create(game).save()
 }
