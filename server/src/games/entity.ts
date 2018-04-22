@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column} from 'typeorm'
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
+import { ValidateIf } from 'class-validator';
 
 export const defaultBoard = [
     ['o','o','o'],
@@ -22,6 +23,7 @@ export default class Game extends BaseEntity {
   name: string
 
   // how to limit color choice?
+  @ValidateIf(e => ['red', 'blue', 'green', 'yellow', 'magenta'].includes(e))
   @Column('text', {nullable:true})
   color: string
   
