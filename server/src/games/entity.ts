@@ -30,7 +30,7 @@ export default class Game extends BaseEntity {
   color: string
   
 
-  @Column('json', { nullable: true }) // board must be of JSON type
+  @Column('json', { nullable: true, default: [['o','o','o'],['o','o','o'],['o','o','o']] }) // board must be of JSON type
   board: string[][]
   //board: JSON
 
