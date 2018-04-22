@@ -1,6 +1,7 @@
-// export const moves =  (board, board2) => 
+export
+const moves =  (board1: string[][], board2: string[][]) => 
 
-// board
-//   .map((row, y) => row.filter((cell, x) => board2[y][x] !== cell))
-//   .reduce((a, b) => a.concat(b))
-//   .length
+board1
+  .map((row, y) => row.filter((cell, x) => board2[y][x] !== cell))
+  .reduce((a, b) => a.concat(b))
+  .length 

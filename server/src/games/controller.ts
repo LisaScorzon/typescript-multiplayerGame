@@ -1,6 +1,6 @@
 import { JsonController, Param, Get, Put, NotFoundError, Body, Post, HttpCode, BadRequestError} from 'routing-controllers'
 import Game, { defaultBoard } from './entity'
-//import { moves } from './moves'
+import { moves } from './moves'
 import { color } from './colors'
 
 
@@ -10,6 +10,8 @@ import { color } from './colors'
 //   })
 //   board: Board
 
+
+  
 @JsonController()
 export default class GameController {
     
@@ -62,10 +64,14 @@ Game.merge(game, update).save()
     return Game.create(game).save()
 }
 
-//@Body() name : string
-//const game : Partial<Game> = {name: name, color: getRandomColor(colorBank)},
+
 }
 
+
+       
+
+
+     //@Body() name : string
+//const game : Partial<Game> = {name: name, color: getRandomColor(colorBank)},
         //if (!game || !game.name) throw new BadRequestError('A game with this name does not exist') //throw back error
      //const game = await Game.createOne({ where: { name } }) //if name exists- find game by name-
-       
