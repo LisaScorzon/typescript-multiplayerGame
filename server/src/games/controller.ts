@@ -40,11 +40,6 @@ async updateGame(
 
   if (update.board && moves(game.board, update.board) > 1){
     throw new BadRequestError(`Only one move allowed!`)
-
-
-
-  //const colors = update.color
-  //if (colors !== ?? ) throw new BadRequestError('You must pick from the following : ' + randomColors.join(', '))
   
 }
 
